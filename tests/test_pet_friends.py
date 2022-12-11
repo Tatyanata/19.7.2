@@ -71,7 +71,7 @@ def test_set_photo_pet(pet_photo="images/Mikrochelik.jpeg"):
         assert status == 200
         assert result["pet_photo"]
     else:
-        # если список питомцев пустой, то выкидывает исключение с текстом об отсутствии своих питомцев
+        # если список питомцев пустой, то собщает об отсутствии своих питомцев
         raise Exception("No pets")
 # 2
 def test_add_new_pet_without_photo_valid_data(name="Квазимода", animal_type="двортерьер", age="6"):
@@ -97,26 +97,33 @@ def test_add_new_pet_without_photo_empty_data(name="", animal_type="", age=""):
 # 4
 def test_add_pet_with_a_lot_of_numbers_in_variable_name(name="1234567891", animal_type='cat', age='2', pet_photo='images/Neo.jpeg'):
         '''Проверка с негативным сценарием. Добавления питомца имя которого состоит из 10 цифр'''
+    # Запрашиваем ключ api
         _, auth_key = pf.get_api_key(valid_email, valid_password)
+    # Добавляем нового питомца
         status, result = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+    # Сверяем полученный ответ с ожидаемым результатом
         assert status == 200
         assert result["name"] == name
 # 5
 def test_add_pet_with_a_lot_of_words_in_variable_age(name="Neo", animal_type='cat', age='сто ведер гвоздей вбили в забор',
                                                       pet_photo='images/Neo.jpeg'):
     '''Проверка с негативным сценарием. Добавления питомца возраст которого состоит из нескольких слов'''
-
+ # Запрашиваем ключ api
     _, auth_key = pf.get_api_key(valid_email, valid_password)
+ # Добавляем нового питомца
     status, result = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+ # Сверяем полученный ответ с ожидаемым результатом
     assert status == 200
     assert result['age'] == age
 # 6
 def test_add_pet_with_a_lot_of_numbers_in_variable_animal_type(name="Neo", animal_type='01234567890123456789', age='2',
                                                       pet_photo='images/Neo.jpeg'):
     '''Проверка с негативным сценарием. Добавления порода которого состоит 20 цифр'''
-
+ # Запрашиваем ключ api
     _, auth_key = pf.get_api_key(valid_email, valid_password)
+ # Добавляем нового питомца
     status, result = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+ # Сверяем полученный ответ с ожидаемым результатом
     assert status == 200
     assert result['animal_type'] == animal_type
 # 7
@@ -124,8 +131,11 @@ def test_add_new_pet_uncorrect_age_number(name='Нона', animal_type='кошк
                                           pet_photo='images/Nona.jpeg'):
     '''Проверка с негативным сценарием. Добавление питомца с отрицательным числом в переменной age.'''
     # pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
+  # Запрашиваем ключ api
     _, auth_key = pf.get_api_key(valid_email, valid_password)
+  # Добавляем нового питомца  
     status, result = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
+  # Сверяем полученный ответ с ожидаемым результатом 
     assert status == 200
     assert result['age'] == age
 # 8
