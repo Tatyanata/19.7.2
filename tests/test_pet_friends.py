@@ -30,26 +30,22 @@ class TestPetFriends:
     # Получаем ключ auth_key и запрашиваем список своих питомцев
         _, auth_key = self.pf.get_api_key(valid_email, valid_password)
         _, my_pets = self.pf.get_list_of_pets(auth_key, "my_pets")
-
     # Проверяем - если список своих питомцев пустой, то добавляем нового и опять запрашиваем список своих питомцев
         if len(my_pets['pets']) == 0:
             self.pf.add_new_pet(auth_key, "Хам", "хомяк", "1", "images/xam1.jpg")
             _, my_pets = self.pf.get_list_of_pets(auth_key, "my_pets")
-
     # Берём id первого питомца из списка и отправляем запрос на удаление
         pet_id = my_pets['pets'][0]['id']
         status, _ = self.pf.delete_pet(auth_key, pet_id)
     # Ещё раз запрашиваем список своих питомцев
         _, my_pets = self.pf.get_list_of_pets(auth_key, "my_pets")
-
-#    Проверяем что статус ответа равен 200 и в списке питомцев нет id удалённого питомца
+    # Проверяем что статус ответа равен 200 и в списке питомцев нет id удалённого питомца
         assert status == 200
         assert pet_id not in my_pets.values()
 
     def test_successful_Update_Self_Pet_Info(self, name='Микрочел', animal_type='Крыс', age=3):
         _, auth_key = self.pf.get_api_key(valid_email, valid_password)
         _, myPets = self.pf.get_list_of_pets(auth_key, "my_pets")
-
         if len(myPets['pets']) > 0:
             status, result = self.pf.update_pet_info(auth_key, myPets['pets'][0]['id'], name, animal_type, age)
             assert status == 200
@@ -87,21 +83,21 @@ def test_add_new_pet_without_photo_valid_data(name="Квазимода", animal_
 def test_add_new_pet_without_photo_empty_data(name="", animal_type="", age=""):
     """ Проверка с негативным сценарием . Проверяем возможность добавления питомца (без фото) с пустыми данными
     (баг) """
-    # Запрашиваем ключ api
+# Запрашиваем ключ api
     _, auth_key = pf.get_api_key(valid_email, valid_password)
-    # Добавляем нового питомца
+# Добавляем нового питомца
     status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
-    # Сверяем полученный ответ с ожидаемым результатом
+# Сверяем полученный ответ с ожидаемым результатом
     assert status == 200
     assert result["name"] == name
 # 4
 def test_add_pet_with_a_lot_of_numbers_in_variable_name(name="1234567891", animal_type='cat', age='2', pet_photo='images/Neo.jpeg'):
         '''Проверка с негативным сценарием. Добавления питомца имя которого состоит из 10 цифр'''
-    # Запрашиваем ключ api
+# Запрашиваем ключ api
         _, auth_key = pf.get_api_key(valid_email, valid_password)
-    # Добавляем нового питомца
+# Добавляем нового питомца
         status, result = pf.add_new_pet(auth_key, name, animal_type, age, pet_photo)
-    # Сверяем полученный ответ с ожидаемым результатом
+# Сверяем полученный ответ с ожидаемым результатом
         assert status == 200
         assert result["name"] == name
 # 5
@@ -130,7 +126,7 @@ def test_add_pet_with_a_lot_of_numbers_in_variable_animal_type(name="Neo", anima
 def test_add_new_pet_uncorrect_age_number(name='Нона', animal_type='кошка', age='-1',
                                           pet_photo='images/Nona.jpeg'):
     '''Проверка с негативным сценарием. Добавление питомца с отрицательным числом в переменной age.'''
-    # pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
+#   pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
   # Запрашиваем ключ api
     _, auth_key = pf.get_api_key(valid_email, valid_password)
   # Добавляем нового питомца  
